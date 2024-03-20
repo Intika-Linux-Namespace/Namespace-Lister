@@ -39,9 +39,9 @@ def getinode( pid , type):
 # get the running command
 def getcmd( p ):
     try:
-        cmd = open(os.path.join('/proc', p, 'cmdline'), 'rb').read()
+        cmd = open(os.path.join('/proc', p, 'cmdline'), 'rb').read().decode()
         if cmd == '':
-            cmd = open(os.path.join('/proc', p, 'comm'), 'rb').read()
+            cmd = open(os.path.join('/proc', p, 'comm'), 'rb').read().decode()
         cmd = cmd.replace('\x00' , ' ')
         cmd = cmd.replace('\n' , ' ')
         return cmd
@@ -53,7 +53,7 @@ def getpcmd( p ):
     try:
         f = '/proc/' + p + '/stat'
         arr = open( f, 'rb').read().split()
-        cmd = getcmd( arr[3] )
+        cmd = getcmd( arr[3].decode() )
         if cmd.startswith( '/usr/bin/docker' ):
             return 'docker'
     except:
